@@ -1,22 +1,13 @@
 from flask import Response
+from ..uitls import file_iterator
 
 
 class VideoStreamSrv(object):
     @classmethod
-    def getFileStream(cls, filename: str):
-        if filename:
-            path = r"D:\pythonWorkSpace\highaltitudeparabolic_demo\highaltitudeparabolic\apps\vidoes\{}.mp4".format(filename)
-        else:
-            path = r"D:\pythonWorkSpace\highaltitudeparabolic_demo\highaltitudeparabolic\apps\vidoes\1.mp4"
+    def getFileStream(cls, file_path: str):
+        video_dir = 'highaltitudeparabolic/apps/videos/{}'
+        video_path = video_dir.format(file_path)
 
-        def chunck(filename):
-            with open(filename, 'rb') as target_file:
-                while True:
-                    chunk = target_file.read(512)
-                    if chunk:
-                        yield chunk
-                    else:
-                        break
-        response = Response(chunck(path))
+        response = Response(file_iterator(video_path))
         response.headers['Content-Type'] = 'video/mp4'
         return response

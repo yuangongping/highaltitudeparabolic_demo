@@ -9,6 +9,6 @@ class VideoStreamCtrl(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('filename', type=str)
         args = parser.parse_args(strict=True)
-        data = VideoStreamSrv.getFileStream(filename=args.filename)
+        data = VideoStreamSrv.getFileStream(file_path=args.filename)
         return data
 
